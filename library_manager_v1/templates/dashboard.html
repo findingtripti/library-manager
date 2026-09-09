@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+{% block title %}Dashboard - Library Book Manager{% endblock %}
+{% block content %}
+
+<h3 class="mb-4">Dashboard</h3>
+
+<div class="row g-3 mb-4">
+  <div class="col-12 col-sm-6 col-lg-3">
+    <div class="card stat-card bg-stat-1 p-3">
+      <div class="stat-number">{{ stats.total_books }}</div>
+      <div>Total Books</div>
+    </div>
+  </div>
+  <div class="col-12 col-sm-6 col-lg-3">
+    <div class="card stat-card bg-stat-2 p-3">
+      <div class="stat-number">{{ stats.available_books }}</div>
+      <div>Available Copies</div>
+    </div>
+  </div>
+  <div class="col-12 col-sm-6 col-lg-3">
+    <div class="card stat-card bg-stat-3 p-3">
+      <div class="stat-number">{{ stats.total_members }}</div>
+      <div>Total Members</div>
+    </div>
+  </div>
+  <div class="col-12 col-sm-6 col-lg-3">
+    <div class="card stat-card bg-stat-4 p-3">
+      <div class="stat-number">{{ stats.currently_issued }}</div>
+      <div>Currently Issued</div>
+    </div>
+  </div>
+</div>
+
+<div class="row g-3 mb-4">
+  <div class="col-12 col-lg-7">
+    <div class="card h-100">
+      <div class="card-header">
+        <i class="bi bi-bar-chart-line"></i> Books Issued per Month (last 6 months)
+      </div>
+      <div class="card-body chart-card-body">
+        <canvas id="issuesPerMonthChart"></canvas>
+      </div>
+    </div>
+  </div>
+  <div class="col-12 col-lg-5">
+    <div class="card h-100">
+      <div class="card-header">
+        <i class="bi bi-pie-chart"></i> Most Borrowed Categories
+      </div>
+      <div class="card-body chart-card-body">
+        <canvas id="categoryChart"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header d-flex justify-content-between align-items-center">
+    <span><i class="bi bi-exclamation-triangle-fill text-danger"></i> Overdue Books ({{ stats.overdue_count }})</span>
+    <a href="{{ url_for('issue_return') }}" class="btn btn-sm btn-outline-primary">Go to Issue / Return</a>
+  </div>
+  <div class="card-body p-0">
+    {% if overdue_list %}
+    <table class="table table-hover mb-0">
+      <thead class="table-light">
+        <tr>
+          <th>Book</th>
+          <th>Member</th>
+          <th>Due Date</th>
+          <th>Fine (Rs.)</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in overdue_list %}
+        <tr>
+          <td>{{ row.title }}</td>
+          <td>{{ row.member_name }}</td>
+          <td>{{ row.due_date }}</td>
+          <td class="text-danger fw-semibold">{{ row.fine }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <p class="text-muted p-3 mb-0">No overdue books right now. 🎉</p>
+    {% endif %}
+  </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+  const brandAccent = '#4a6fa5';
+  const brandColors = ['#4a6fa5', '#3f9b5f', '#d98944', '#b25454', '#8e6fa5', '#4aa5a0', '#a5824a', '#7a7a7a'];
+
+  // --- Chart 1: Books issued per month (bar chart) ---
+  fetch("{{ url_for('analytics_issues_per_month') }}")
+    .then(res => res.json())
+    .then(data => {
+      new Chart(document.getElementById('issuesPerMonthChart'), {
+        type: 'bar',
+        data: {
+          labels: data.labels,
+          datasets: [{
+            label: 'Books Issued',
+            data: data.counts,
+            backgroundColor: brandAccent,
+            borderRadius: 4,
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            y: { beginAtZero: true, ticks: { precision: 0 } }
+          }
+        }
+      });
+    });
+
+  // --- Chart 2: Most borrowed categories (doughnut chart) ---
+  fetch("{{ url_for('analytics_category_popularity') }}")
+    .then(res => res.json())
+    .then(data => {
+      new Chart(document.getElementById('categoryChart'), {
+        type: 'doughnut',
+        data: {
+          labels: data.labels,
+          datasets: [{
+            data: data.counts,
+            backgroundColor: brandColors,
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 11 } } } }
+        }
+      });
+    });
+</script>
+{% endblock %}

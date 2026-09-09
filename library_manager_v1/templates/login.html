@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Login - Library Book Manager{% endblock %}
+{% block content %}
+</div>
+<div class="login-wrapper">
+  <div class="card login-card shadow">
+    <div class="card-body p-4">
+      <div class="text-center mb-4">
+        <i class="bi bi-book-half" style="font-size: 2.5rem; color: var(--brand-accent);"></i>
+        <h4 class="mt-2 mb-0">Library Book Manager</h4>
+        <small class="text-muted">Admin Login</small>
+      </div>
+
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+            <div class="alert alert-{{ category }} py-2">{{ message }}</div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+
+      <form method="POST" action="{{ url_for('login') }}">
+        <div class="mb-3">
+          <label class="form-label">Username</label>
+          <input type="text" name="username" class="form-control" required autofocus>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Password</label>
+          <input type="password" name="password" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Login</button>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="d-none">
+{% endblock %}

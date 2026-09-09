@@ -1,0 +1,263 @@
+:root {
+    --brand-dark: #2c3e50;
+    --brand-accent: hsl(216,38%,47%);
+
+    --bg-color: #f5f7fa;
+    --card-color: #f8f9fa;
+    --text-color: #212529;
+    --border-color: #d9d9d9;
+}
+
+body{
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+.app-navbar {
+  background-color: var(--brand-dark);
+}
+
+.login-wrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--brand-dark), var(--brand-accent));
+}
+
+.login-card {
+  width: 100%;
+  max-width: 380px;
+}
+
+.stat-card {
+  border: none;
+  border-radius: 0.75rem;
+  color: #fff;
+}
+
+.stat-card .stat-number {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.bg-stat-1 { background-color: #4a6fa5; }
+.bg-stat-2 { background-color: #3f9b5f; }
+.bg-stat-3 { background-color: #d98944; }
+.bg-stat-4 { background-color: #b25454; }
+
+.table-hover tbody tr:hover {
+  background-color: #eef2f7;
+}
+
+.card{
+    border-radius:0.6rem;
+    background:var(--card-color);
+    color:var(--text-color);
+    border:1px solid var(--border-color);
+}
+
+.chart-card-body {
+  position: relative;
+  height: 280px;
+}
+
+body.dark-mode{
+    --bg-color:#121212;
+    --card-color:#222831;
+    --text-color:#f5f5f5;
+    --border-color:#3d3d3d;
+
+    background-color:var(--bg-color);
+    color:var(--text-color);
+}
+body.dark-mode .navbar {
+    background-color: #1f1f1f !important;
+}
+
+body.dark-mode .card
+body.dark-mode .table {
+    background-color: #222;
+    color: white;
+}
+.table{
+    background:var(--card-color);
+    color:var(--text-color);
+}
+
+.table th,
+.table td{
+    background:var(--card-color);
+    color:var(--text-color);
+    border-color:var(--border-color);
+}
+
+.form-control,
+.form-select{
+    background:var(--card-color);
+    color:var(--text-color);
+    border:1px solid var(--border-color);
+}
+
+.form-control::placeholder{
+    color:#999;
+}
+
+.list-group-item{
+    background:var(--card-color);
+    color:var(--text-color);
+}
+
+.modal-content{
+    background:var(--card-color);
+    color:var(--text-color);
+}
+/*  Common Card Style */
+.card,
+.table,
+.table-responsive,
+.form-control,
+.form-select,
+.input-group-text,
+.list-group-item {
+    background-color: #f8f9fa;
+    color: #212529;
+    border: 1px solid #dee2e6;
+    transition: 0.3s;
+}
+
+/*  Dark Mode  */
+body.dark-mode .card,
+body.dark-mode .table,
+body.dark-mode .table-responsive,
+body.dark-mode .form-control,
+body.dark-mode .form-select,
+body.dark-mode .input-group-text,
+body.dark-mode .list-group-item {
+    background-color: #2b3035;
+    color: #ffffff;
+    border-color: #495057;
+}
+
+/* Table */
+body.dark-mode .table th,
+body.dark-mode .table td {
+    background-color: #2b3035;
+    color: white;
+}
+
+/* Search Box */
+body.dark-mode .form-control,
+body.dark-mode .form-select {
+    background-color: #343a40;
+    color: white;
+}
+
+body.dark-mode .form-control::placeholder {
+    color: #cccccc;
+}
+/* Better Dashboard Cards */
+body.dark-mode .card{
+    background: #1f2937 !important;
+    border: 1px solid #374151 !important;
+    border-radius: 12px;
+    color: #f8f9fa !important;
+    box-shadow: 0 4px 10px rgba(0,0,0,.25);
+}
+
+body.dark-mode .card-title,
+body.dark-mode .card-text,
+body.dark-mode small,
+body.dark-mode p,
+body.dark-mode span{
+    color:#f8f9fa !important;
+}
+/* Responsive  */
+
+.container,
+.container-fluid{
+    width:100%;
+    padding-left:15px;
+    padding-right:15px;
+}
+
+.card,
+.stat-card{
+    width:100%;
+    border-radius:12px;
+}
+
+.chart-card-body{
+    width:100%;
+    height:320px;
+}
+
+/* Tablet */
+@media (max-width:992px){
+
+    .stat-card{
+        margin-bottom:15px;
+    }
+
+    .chart-card-body{
+        height:280px;
+    }
+}
+
+/* Mobile */
+@media (max-width:768px){
+
+    h1,h2,h3{
+        font-size:1.5rem;
+    }
+
+    .navbar-nav{
+        text-align:center;
+    }
+
+    .stat-card{
+        margin-bottom:15px;
+    }
+
+    .chart-card-body{
+        height:250px;
+    }
+
+    table{
+        font-size:14px;
+    }
+
+    .btn{
+        width:100%;
+        margin-top:8px;
+    }
+}
+
+/* Small Mobile */
+@media (max-width:576px){
+
+    .chart-card-body{
+        height:220px;
+    }
+
+    .card{
+        margin-bottom:15px;
+    }
+
+    .table-responsive{
+        overflow-x:auto;
+    }
+}
+.card{
+    height:100%;
+    border-radius:12px;
+}
+
+.chart-card-body{
+    min-height:300px;
+}
+
+canvas{
+    width:100% !important;
+    height:100% !important;
+}

@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block title %}Issue / Return - Library Book Manager{% endblock %}
+{% block content %}
+
+<h3 class="mb-4">Issue / Return</h3>
+
+<div class="row g-4 mb-4">
+  <div class="col-lg-5">
+    <div class="card h-100">
+      <div class="card-header"><i class="bi bi-box-arrow-up"></i> Issue a Book</div>
+      <div class="card-body">
+        <form method="POST" action="{{ url_for('issue_book') }}">
+          <div class="mb-3">
+            <label class="form-label">Book</label>
+            <select name="book_id" class="form-select" required>
+              <option value="" disabled selected>Select an available book</option>
+              {% for b in available_books %}
+              <option value="{{ b.book_id }}">{{ b.title }} — {{ b.author }} ({{ b.available_copies }} left)</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Member</label>
+            <select name="member_id" class="form-select" required>
+              <option value="" disabled selected>Select a member</option>
+              {% for m in members %}
+              <option value="{{ m.member_id }}">{{ m.name }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <p class="text-muted small mb-3">Loan period: {{ loan_period }} days. Fine: Rs. {{ fine_per_day }}/day after due date.</p>
+          <button type="submit" class="btn btn-primary w-100">Issue Book</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-7">
+    <div class="card h-100">
+      <div class="card-header"><i class="bi bi-box-arrow-in-down"></i> Currently Issued Books</div>
+      <div class="card-body p-0">
+        <table class="table table-hover mb-0">
+          <thead class="table-light">
+            <tr>
+              <th>Book</th>
+              <th>Member</th>
+              <th>Due</th>
+              <th>Status</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in active_issues %}
+            <tr>
+              <td>{{ row.title }}</td>
+              <td>{{ row.member_name }}</td>
+              <td>{{ row.due_date }}</td>
+              <td>
+                {% if row.is_overdue %}
+                  <span class="badge bg-danger">Overdue (Rs. {{ row.fine_preview }})</span>
+                {% else %}
+                  <span class="badge bg-success">On time</span>
+                {% endif %}
+              </td>
+              <td>
+                <form method="POST" action="{{ url_for('return_book', issue_id=row.issue_id) }}"
+                      onsubmit="return confirm('Mark this book as returned?');">
+                  <button class="btn btn-sm btn-outline-primary">Return</button>
+                </form>
+              </td>
+            </tr>
+            {% else %}
+            <tr><td colspan="5" class="text-center text-muted py-3">No books currently issued.</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
