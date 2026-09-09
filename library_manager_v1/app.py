@@ -19,9 +19,12 @@ app.secret_key = "library-mini-project-secret-key"
 app.config["MAIL_SERVER"] = "smtp-relay.brevo.com"
 app.config["MAIL_PORT"] = 587
 app.config["MAIL_USE_TLS"] = True
-app.config["MAIL_USERNAME"] = "b8a47c001@smtp-brevo.com"
-app.config["MAIL_PASSWORD"] = "xsmtpsib-cab595eaedede2a602470f14f20eaf76449c40b9ec217859b7a9b8921ab9184b-wJtlKCa6ZSxxFu7S"
-app.config["MAIL_DEFAULT_SENDER"] = "librarymanager2026@gmail.com"
+#app.config["MAIL_USERNAME"] = "b8a47c001@smtp-brevo.com"
+#app.config["MAIL_PASSWORD"] = "xsmtpsib-cab595eaedede2a602470f14f20eaf76449c40b9ec217859b7a9b8921ab9184b-wJtlKCa6ZSxxFu7S"
+import os
+app.config["MAIL_USERNAME"] =os.getenv("SMTP_EMAIL")
+#app.config["MAIL_DEFAULT_SENDER"] = "librarymanager2026@gmail.com"
+app.config["MAIL_PASSWORD"] = os.getenv("SMTP_PASSWORD")
 
 mail = Mail(app)
 
