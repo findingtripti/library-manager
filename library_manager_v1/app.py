@@ -1,3 +1,4 @@
+import os
 """
 app.py
 Library Book Manager - Flask + SQLite mini project, with dashboard analytics charts.
@@ -19,7 +20,6 @@ app.secret_key = "library-mini-project-secret-key"
 app.config["MAIL_SERVER"] = "smtp-relay.brevo.com"
 app.config["MAIL_PORT"] = int(os.environ.get("MAIL_PORT",587))
 app.config["MAIL_USE_TLS"] = True
-import os
 app.config["MAIL_USERNAME"] =os.getenv("SMTP_EMAIL")
 
 app.config["MAIL_PASSWORD"] = os.getenv("SMTP_PASSWORD")
