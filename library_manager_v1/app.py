@@ -1,4 +1,9 @@
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+from flask import Flask, render_template, request, redirect, url_for, session, flash, jsonify
 """
 app.py
 Library Book Manager - Flask + SQLite mini project, with dashboard analytics charts.
@@ -18,11 +23,11 @@ app = Flask(__name__)
 app.secret_key = "library-mini-project-secret-key"  
 
 app.config["MAIL_SERVER"] = "smtp-relay.brevo.com"
-app.config["MAIL_PORT"] = int(os.environ.get("MAIL_PORT",587))
+app.config["MAIL_PORT"] = 587
 app.config["MAIL_USE_TLS"] = True
-app.config["MAIL_USERNAME"] =os.getenv("SMTP_EMAIL")
-
+app.config["MAIL_USERNAME"] = os.getenv("SMTP_USERNAME")
 app.config["MAIL_PASSWORD"] = os.getenv("SMTP_PASSWORD")
+app.config["MAIL_DEFAULT_SENDER"] = "librarymanager2026@gmail.com"
 
 mail = Mail(app)
 
@@ -33,12 +38,19 @@ FINE_PER_DAY = 5  # rupees
 
 
 def send_email(to_email, subject, body):
-    msg = Message(
-        subject,
-        recipients=[to_email]
-    )
-    msg.body = body
-    mail.send(msg)
+    try:
+        msg = Message(
+            subject=subject,
+            sender="librarymanager2026@gmail.com",
+            recipients=[to_email],
+            body=body
+        )
+
+        mail.send(msg)
+        print(f"EMAIL SENT SUCCESSFULLY TO: {to_email}")
+
+    except Exception as e:
+        print(f"EMAIL ERROR: {e}")
 
 
 def login_required(view):
